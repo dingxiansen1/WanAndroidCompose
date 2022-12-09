@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
+}
+
+android {
+    namespace 'com.dd.wanandroidcompose'
+    compileSdk Android.compileSdk
+
+    defaultConfig {
+        applicationId "com.dd.wanandroidcompose"
+        minSdk Android.minSdk
+        targetSdk Android.targetSdk
+        versionCode Android.versionCode
+        versionName Android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = Kotlin.kotlinJvmTarget
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Version.compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':base')
+    implementation Compose.ui
+    implementation Compose.material
+    implementation Compose.ui_tooling_preview
+    implementation Compose.activity
+    testImplementation AndroidTest.junit
+    androidTestImplementation AndroidTest.ext
+    androidTestImplementation AndroidTest.espresso
+    androidTestImplementation AndroidTest.compose
+    debugImplementation Compose.ui_tooling
+    debugImplementation Compose.ui_test_manifest
+
+    implementation Compose.navigation
+
+    //retrofit2
+    implementation Other.retrofit
+    implementation Other.retrofit_gson
+    //hilt
+    implementation Jetpack.hilt
+    kapt Jetpack.hilt_kapt
+    implementation Jetpack.hilt_navigation
+
+    implementation Other.serialization
+
+
+}
