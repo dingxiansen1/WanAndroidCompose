@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,15 +43,18 @@ fun HomePage(
             .fillMaxSize()
             .background(AppTheme.colors.background)
     ) {
-        SwipeRefreshList(lazyPagingItems = listData,
+        SwipeRefreshList(
+            modifier = Modifier.fillMaxSize(),
+            lazyPagingItems = listData,
             listState = listState,
-            refresh = { /*TODO*/ },
+            refresh = {
+                viewModel.getBanner()
+            },
             itemContent = {
                 item {
                     BannerItem(banner)
                 }
                 itemsIndexed(listData) { _, item ->
-
                     HomeDataItem(item!!)
                 }
 
@@ -82,7 +88,11 @@ fun HomeDataItem(data: HomeData) {
             .clickable { },
         elevation = 10.dp // 设置阴影
     ) {
-        Column(Modifier.fillMaxSize().padding(5.dp)) {
+        Column(
+          modifier =   Modifier
+                .fillMaxSize()
+                .padding(5.dp),
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -97,11 +107,30 @@ fun HomeDataItem(data: HomeData) {
                 )
             }
             Text(
+                modifier = Modifier.height(70.dp),
                 text = data.title,
                 style = TextStyle(fontSize = 16.sp, color = AppTheme.colors.textPrimary),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = data.superChapterName,
+                    style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
+                )
+                IconButton(onClick = {
+                    data.collect = !data.collect
+                }) {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        contentDescription = "收藏",
+                        tint = if (data.collect) AppTheme.colors.error else AppTheme.colors.divider
+                    )
+                }
+            }
         }
 
     }

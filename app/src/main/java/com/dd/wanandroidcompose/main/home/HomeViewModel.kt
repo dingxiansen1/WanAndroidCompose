@@ -30,17 +30,18 @@ class HomeViewModel @Inject constructor(
         private set
 
     init {
-        launch {
-            getBanner()
-        }
+        getBanner()
     }
-    private suspend fun getBanner(){
-       val banner  =  RxHttpUtils.getAwait<List<HomeBanner>>(API.HOME.Banner) ?: emptyList()
-        if (banner.isNotEmpty()){
-            //缓存在本地
-        }
 
-        viewStates = HomeViewState(banner, data = pager)
+    fun getBanner() {
+        launch {
+            val banner = RxHttpUtils.getAwait<List<HomeBanner>>(API.HOME.Banner) ?: emptyList()
+            if (banner.isNotEmpty()) {
+                //缓存在本地
+            }
+
+            viewStates = HomeViewState(banner, data = pager)
+        }
     }
 
 }
