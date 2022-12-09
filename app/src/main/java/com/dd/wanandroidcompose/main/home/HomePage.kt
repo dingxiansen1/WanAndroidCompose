@@ -8,9 +8,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -94,7 +91,7 @@ fun HomeDataItem(data: HomeData) {
                 .padding(5.dp),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -107,14 +104,14 @@ fun HomeDataItem(data: HomeData) {
                 )
             }
             Text(
-                modifier = Modifier.height(70.dp),
+                modifier = Modifier.fillMaxWidth().weight(3f),
                 text = data.title,
                 style = TextStyle(fontSize = 16.sp, color = AppTheme.colors.textPrimary),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
