@@ -13,12 +13,18 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.navigation.NavHostController
 import com.dd.base.theme.AppTheme
 import com.dd.base.theme.ComposeAppTheme
 import com.dd.base.theme.Themem
 import com.dd.base.utils.sdp
+import com.dd.wanandroidcompose.R
 import com.dd.wanandroidcompose.main.home.HomePage
+import com.dd.wanandroidcompose.main.main.MinePage
+import com.dd.wanandroidcompose.main.project.ProjectPage
+import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -46,9 +52,12 @@ fun MainPage(navCtrl: NavHostController) {
                         BottomNavigationItem(
                             icon = {
                                 when (index) {
-                                    0 -> Icon(Icons.Filled.Home, contentDescription = null)
-                                    1 -> Icon(Icons.Filled.Favorite, contentDescription = null)
-                                    else -> Icon(Icons.Filled.Person, contentDescription = null)
+                                    0 -> Icon(Icons.Filled.Home, contentDescription = "首页")
+                                    1 -> Icon(
+                                        ImageBitmap.imageResource(id = R.mipmap.main_project),
+                                        contentDescription = "项目"
+                                    )
+                                    else -> Icon(Icons.Filled.Person, contentDescription = "我的")
                                 }
                             },
                             label = { Text(item) },
@@ -65,9 +74,9 @@ fun MainPage(navCtrl: NavHostController) {
             Box(modifier = Modifier.padding(it)) {
                 AnimatedContent(targetState = selectedItem) { targetState ->
                     when (targetState) {
-                       0 -> HomePage(navCtrl, scaffoldState = scaffoldState, scope = scope)
-                        /*  1 -> FindPage(navCtrl, scaffoldState = scaffoldState, scope = scope)
-                         else -> MinePage(navCtrl, scaffoldState = scaffoldState, scope = scope)*/
+                        0 -> HomePage(navCtrl, scaffoldState = scaffoldState, scope = scope)
+                        1 -> ProjectPage(navCtrl, scaffoldState = scaffoldState, scope = scope)
+                        else -> MinePage(navCtrl, scaffoldState = scaffoldState, scope = scope)
                     }
                 }
             }

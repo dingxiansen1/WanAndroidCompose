@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val pager by lazy {
         simplePager {
-            RxHttpUtils.getCAwait<ListWrapper<HomeData>>(API.HOME.homeDate(it))
+            RxHttpUtils.getCAwait<ListWrapper<HomeData>>(API.Home.homeDate(it))
         }
     }
     var viewStates by mutableStateOf(HomeViewState(data = pager))
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     fun getBanner() {
         launch {
-            val banner = RxHttpUtils.getAwait<List<HomeBanner>>(API.HOME.Banner) ?: emptyList()
+            val banner = RxHttpUtils.getAwait<List<HomeBanner>>(API.Home.Banner) ?: emptyList()
             if (banner.isNotEmpty()) {
                 //缓存在本地
             }

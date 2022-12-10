@@ -4,7 +4,7 @@ object API {
 
     private const val BASE_URL="https://www.wanandroid.com"
 
-    object HOME{
+    object Home{
         const val Banner = "$BASE_URL/banner/json"
 
         fun homeDate(page:Int):String{
@@ -12,5 +12,7 @@ object API {
         }
 
     }
-
+    object Project{
+        const val Category = "$BASE_URL/project/tree/json"
+    }
 }
