@@ -50,6 +50,7 @@ object Jetpack{
    private const val lifecycle_version ="2.5.1"
    private const val datastore_version ="1.0.0"
    private const val hilt_version ="2.44"
+   private const val room_version ="2.4.2"
    const val lifecycle_runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
    const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
    const val lifecycle_viewmodel= "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -64,6 +65,9 @@ object Jetpack{
 
    const val paging= "androidx.paging:paging-runtime:3.0.1"
    const val paging_compose= "androidx.paging:paging-compose:1.0.0-alpha12"
+   const val room = "androidx.room:room-ktx:$room_version"
+   const val room_runtime = "androidx.room:room-runtime:$room_version"
+   const val room_compiler = "androidx.room:room-compiler:$room_version"
 }
 
 object Compose{

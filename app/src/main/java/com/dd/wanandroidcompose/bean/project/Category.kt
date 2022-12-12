@@ -1,10 +1,11 @@
 package com.dd.wanandroidcompose.bean.project
 
+import androidx.room.*
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
 
-
+@Entity(tableName = "projectCategory")
 @Serializable
 data class Category(
     @SerialName("author")
@@ -16,6 +17,7 @@ data class Category(
     @SerialName("desc")
     var desc: String,
     @SerialName("id")
+    @PrimaryKey
     var id: Int,
     @SerialName("lisense")
     var lisense: String,
@@ -69,7 +71,7 @@ data class CategoryDetails(
     @SerialName("id")
     var id: Int,
     @SerialName("isAdminAdd")
-    var isAdminAdd: Boolean,
+    var isAdminAdd2: Boolean,
     @SerialName("link")
     var link: String,
     @SerialName("niceDate")
@@ -116,5 +118,4 @@ data class CategoryDetails(
         @SerialName("url")
         var url: String
     )
-}
 }

@@ -7,8 +7,8 @@ import com.dd.base.base.BaseViewModel
 import com.dd.base.ext.launch
 import com.dd.wanandroidcompose.API
 import com.dd.wanandroidcompose.bean.project.Category
-import com.dd.wanandroidcompose.main.home.HomeViewState
 import com.dd.wanandroidcompose.net.RxHttpUtils
+import com.dd.wanandroidcompose.utils.RoomUtils
 
 class ProjectViewModel : BaseViewModel() {
 
@@ -21,23 +21,17 @@ class ProjectViewModel : BaseViewModel() {
 
     private fun getCategory() {
         launch {
-
+            val cacheList = RoomUtils.getProjectCategory()
+            if (cacheList!=null&& cacheList.isNotEmpty()){
+                viewStates = ProjectViewState(cacheList)
+                return@launch
+            }
             val list = RxHttpUtils.getAwait<List<Category>>(API.Project.Category) ?: emptyList()
             if (list.isNotEmpty()) {
+                viewStates = ProjectViewState(list)
                 //缓存在本地
+                RoomUtils.setProjectCategory(list)
             }
-            viewStates = ProjectViewState(list)
-        }
-    }
-
-    fun getCategoryDetails() {
-        launch {
-
-            val list = RxHttpUtils.getAwait<List>(API.Project.Category) ?: emptyList()
-            if (list.isNotEmpty()) {
-                //缓存在本地
-            }
-            viewStates = ProjectViewState(list)
         }
     }
 }
