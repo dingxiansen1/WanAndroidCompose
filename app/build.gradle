@@ -51,7 +51,11 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':base')
+    if (isAAR.toBoolean()){
+        implementation fileTree(dir: "libs", includes: ["*"])
+    }else {
+        implementation project(path: ':base')
+    }
     implementation Compose.ui
     implementation Compose.material
     implementation Compose.ui_tooling_preview
