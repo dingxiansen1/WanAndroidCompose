@@ -9,8 +9,11 @@ import com.dd.wanandroidcompose.API
 import com.dd.wanandroidcompose.bean.project.Category
 import com.dd.wanandroidcompose.net.RxHttpUtils
 import com.dd.wanandroidcompose.utils.RoomUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProjectViewModel : BaseViewModel() {
+@HiltViewModel
+class ProjectViewModel @Inject constructor() : BaseViewModel() {
 
     var viewStates by mutableStateOf(ProjectViewState())
         private set

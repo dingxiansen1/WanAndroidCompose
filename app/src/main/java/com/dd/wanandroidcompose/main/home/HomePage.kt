@@ -28,7 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun HomePage(
-    navCtrl: NavHostController, scaffoldState: ScaffoldState, scope: CoroutineScope
+    navCtrl: NavHostController, scaffoldState: ScaffoldState
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val banner = viewModel.viewStates.banner

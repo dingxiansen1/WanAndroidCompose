@@ -30,7 +30,6 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun MainPage(navCtrl: NavHostController) {
     val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("首页", "项目", "我的")
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
@@ -74,9 +73,9 @@ fun MainPage(navCtrl: NavHostController) {
             Box(modifier = Modifier.padding(it)) {
                 AnimatedContent(targetState = selectedItem) { targetState ->
                     when (targetState) {
-                        0 -> HomePage(navCtrl, scaffoldState = scaffoldState, scope = scope)
-                        1 -> ProjectPage(navCtrl, scaffoldState = scaffoldState, scope = scope)
-                        else -> MinePage(navCtrl, scaffoldState = scaffoldState, scope = scope)
+                        0 -> HomePage(navCtrl, scaffoldState = scaffoldState)
+                        1 -> ProjectPage(navCtrl, scaffoldState = scaffoldState)
+                        else -> MinePage(navCtrl, scaffoldState = scaffoldState)
                     }
                 }
             }

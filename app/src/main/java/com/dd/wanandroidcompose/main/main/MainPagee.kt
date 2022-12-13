@@ -6,6 +6,6 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun MinePage(navCtrl: NavHostController, scaffoldState: ScaffoldState, scope: CoroutineScope) {
+fun MinePage(navCtrl: NavHostController, scaffoldState: ScaffoldState) {
 
 }
