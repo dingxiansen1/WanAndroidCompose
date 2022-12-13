@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.dd.base.base.viewModelInstance
 import com.dd.wanandroidcompose.bean.project.CategoryDetails
+import com.dd.wanandroidcompose.utils.viewModelInstance
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

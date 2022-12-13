@@ -2,19 +2,16 @@ package com.dd.wanandroidcompose.main
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.dd.base.theme.AppTheme
 import com.dd.base.theme.ComposeAppTheme
@@ -24,14 +21,14 @@ import com.dd.wanandroidcompose.R
 import com.dd.wanandroidcompose.main.home.HomePage
 import com.dd.wanandroidcompose.main.main.MinePage
 import com.dd.wanandroidcompose.main.project.ProjectPage
-import kotlinx.coroutines.CoroutineScope
+import com.dd.wanandroidcompose.main.wechat.WeChatPage
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainPage(navCtrl: NavHostController) {
     val scaffoldState = rememberScaffoldState()
     var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("首页", "项目", "我的")
+    val items = listOf("首页", "项目", "微信公众号", "我的")
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
         Scaffold(
             scaffoldState = scaffoldState,
@@ -48,15 +45,28 @@ fun MainPage(navCtrl: NavHostController) {
                     backgroundColor = AppTheme.colors.background
                 ) {
                     items.forEachIndexed { index, item ->
+                        val size = Modifier.size(50.dp)
                         BottomNavigationItem(
                             icon = {
                                 when (index) {
-                                    0 -> Icon(Icons.Filled.Home, contentDescription = "首页")
+                                    0 -> Icon(
+                                        Icons.Filled.Home,
+                                        contentDescription = "首页",
+                                        modifier = size
+                                    )
                                     1 -> Icon(
                                         ImageBitmap.imageResource(id = R.mipmap.main_project),
-                                        contentDescription = "项目"
+                                        contentDescription = "项目", modifier = size
                                     )
-                                    else -> Icon(Icons.Filled.Person, contentDescription = "我的")
+                                    2 -> Icon(
+                                        ImageBitmap.imageResource(id = R.mipmap.main_project),
+                                        contentDescription = "微信公众号", modifier = size
+                                    )
+                                    else -> Icon(
+                                        Icons.Filled.Person,
+                                        contentDescription = "我的",
+                                        modifier = size
+                                    )
                                 }
                             },
                             label = { Text(item) },
@@ -75,6 +85,7 @@ fun MainPage(navCtrl: NavHostController) {
                     when (targetState) {
                         0 -> HomePage(navCtrl, scaffoldState = scaffoldState)
                         1 -> ProjectPage(navCtrl, scaffoldState = scaffoldState)
+                        2 -> WeChatPage(navCtrl, scaffoldState = scaffoldState)
                         else -> MinePage(navCtrl, scaffoldState = scaffoldState)
                     }
                 }
