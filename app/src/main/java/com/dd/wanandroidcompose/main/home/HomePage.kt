@@ -45,7 +45,7 @@ fun HomePage(
             lazyPagingItems = listData,
             listState = listState,
             refresh = {
-                viewModel.getBanner()
+                listData.refresh()
             },
             itemContent = {
                 item {

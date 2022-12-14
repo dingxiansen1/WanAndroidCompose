@@ -45,7 +45,7 @@ fun MainPage(navCtrl: NavHostController) {
                     backgroundColor = AppTheme.colors.background
                 ) {
                     items.forEachIndexed { index, item ->
-                        val size = Modifier.size(50.dp)
+                        val size = Modifier.size(20.dp)
                         BottomNavigationItem(
                             icon = {
                                 when (index) {

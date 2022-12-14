@@ -16,7 +16,7 @@ object API {
         const val Category = "$BASE_URL/project/tree/json"
 
         fun projectList(page: Int):String{
-            return "https://www.wanandroid.com/project/list/page/json"
+            return "https://www.wanandroid.com/project/list/$page/json"
         }
     }
 }
