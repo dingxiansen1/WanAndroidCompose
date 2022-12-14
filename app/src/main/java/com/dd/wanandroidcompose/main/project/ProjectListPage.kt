@@ -40,14 +40,14 @@ fun ProjectListPage(
         content = {
             items(listData.itemCount) { index ->
                 listData[index]?.let {
-                    ProjectListItem(it)
+                    ProjectListItem(it, index)
                 }
             }
         })
 }
 
 @Composable
-fun ProjectListItem(item: CategoryDetails) {
+fun ProjectListItem(item: CategoryDetails, index: Int) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +60,13 @@ fun ProjectListItem(item: CategoryDetails) {
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-            AsyncImage(model = item.envelopePic, contentDescription = "图片")
+            AsyncImage(
+                model = item.envelopePic,
+                contentDescription = "图片",
+                modifier = Modifier
+                    .height(if (index == 0) 100.dp else 150.dp)
+                    .fillMaxWidth()
+            )
             Text(
                 text = item.desc,
                 style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
