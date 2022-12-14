@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,17 +24,18 @@ import com.dd.wanandroidcompose.bean.project.CategoryDetails
 fun ProjectListPage(
     cid: Int
 ) {
-    val viewModel:ProjectListViewModel = hiltViewModel()
+    val viewModel: ProjectListViewModel = hiltViewModel()
     val listData = viewModel.projectList(cid).collectAsLazyPagingItems()
     LazyVerticalStaggeredGrid(
+        modifier = Modifier.fillMaxSize(),
         //Item列数
         columns = StaggeredGridCells.Fixed(2),
         // 整体内边距
-        contentPadding = PaddingValues(8.dp, 8.dp),
+        contentPadding = PaddingValues(0.dp, 0.dp),
         // item 和 item 之间的纵向间距
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp),
         // item 和 item 之间的横向间距
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(0.dp),
 
         content = {
             items(listData.itemCount) { index ->
@@ -46,17 +48,23 @@ fun ProjectListPage(
 
 @Composable
 fun ProjectListItem(item: CategoryDetails) {
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp)
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+
         ) {
             AsyncImage(model = item.envelopePic, contentDescription = "图片")
             Text(
                 text = item.desc,
-                style = TextStyle(fontSize = 16.sp, color = AppTheme.colors.textPrimary),
-                maxLines = 2,
+                style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
         }
