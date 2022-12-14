@@ -5,6 +5,17 @@ import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
 
+
+data class ListWrapper<T>(
+    var curPage: Int,
+    var offset: Int,
+    var over: Boolean,
+    var pageCount: Int,
+    var size: Int,
+    var total: Int,
+    var datas: List<T>
+)
+
 @Serializable
 data class HomeData(
     @SerialName("adminAdd")

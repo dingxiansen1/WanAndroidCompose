@@ -11,8 +11,8 @@ import com.dd.wanandroidcompose.net.RxHttpUtils
 import com.dd.wanandroidcompose.API
 import com.dd.wanandroidcompose.bean.home.HomeBanner
 import com.dd.wanandroidcompose.bean.home.HomeData
-import com.dd.base.paging.ListWrapper
 import com.dd.base.paging.simplePager
+import com.dd.wanandroidcompose.bean.home.ListWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val pager by lazy {
         simplePager {
-            RxHttpUtils.getCAwait<ListWrapper<HomeData>>(API.Home.homeDate(it))
+            RxHttpUtils.getAwait<ListWrapper<HomeData>>(API.Home.homeDate(it))!!.datas
         }
     }
     var viewStates by mutableStateOf(HomeViewState(data = pager))
