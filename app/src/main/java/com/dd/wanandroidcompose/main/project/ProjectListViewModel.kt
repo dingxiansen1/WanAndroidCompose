@@ -3,6 +3,7 @@ package com.dd.wanandroidcompose.main.project
 import androidx.paging.PagingData
 import com.dd.base.base.BaseViewModel
 import com.dd.base.paging.simplePager
+import com.dd.base.utils.log.LogUtils
 import com.dd.wanandroidcompose.API
 import com.dd.wanandroidcompose.bean.home.ListWrapper
 import com.dd.wanandroidcompose.bean.project.CategoryDetails
@@ -22,6 +23,10 @@ class ProjectListViewModel @Inject constructor() :
         )!!.datas
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        LogUtils.d("丁笛ProjectListViewModel，销毁")
+    }
 }
 
 typealias PagingProject = Flow<PagingData<CategoryDetails>>

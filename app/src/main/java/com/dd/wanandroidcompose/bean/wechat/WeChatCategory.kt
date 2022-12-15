@@ -1,13 +1,14 @@
-package com.dd.wanandroidcompose.bean.project
+package com.dd.wanandroidcompose.bean.wechat
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
 
-@Entity(tableName = "projectCategory")
+@Entity(tableName = "weChatCategory")
 @Serializable
-data class Category(
+data class WeChatCategory(
     @SerialName("author")
     var author: String,
     @SerialName("courseId")

@@ -25,6 +25,8 @@ abstract class ProjectCategoryRoomDatabase :RoomDatabase(){
         @Volatile
         private var INSTANCE: ProjectCategoryRoomDatabase? = null
 
+        const val DATA_BASE_NAME = "ProjectCategoryRoomDatabase"
+
         fun getDatabase(context: Context): ProjectCategoryRoomDatabase {
             val instance = INSTANCE
             instance?.let { return it }
@@ -32,7 +34,7 @@ abstract class ProjectCategoryRoomDatabase :RoomDatabase(){
                 val db = Room.databaseBuilder(
                     context.applicationContext,
                     ProjectCategoryRoomDatabase::class.java,
-                    "database_name"
+                    DATA_BASE_NAME
                 ).build()
                 INSTANCE = db
                 return db

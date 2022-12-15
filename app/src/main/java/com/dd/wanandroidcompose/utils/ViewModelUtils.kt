@@ -15,7 +15,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import dagger.hilt.android.internal.lifecycle.HiltViewModelFactory
 
-/*
 
 @Composable
 inline fun <reified T : ViewModel> viewModelInstance(crossinline create:()-> T):T{
@@ -25,7 +24,6 @@ inline fun <reified T : ViewModel> viewModelInstance(crossinline create:()-> T):
         }
     }) as T
 }
-*/
 @Composable
 inline fun <reified VM : ViewModel> hiltViewModelExt(
     viewModelStoreOwner: ViewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {

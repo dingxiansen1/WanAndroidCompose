@@ -8,7 +8,7 @@ object API {
         const val Banner = "$BASE_URL/banner/json"
 
         fun homeDate(page:Int):String{
-           return "https://www.wanandroid.com/article/list/$page/json"
+           return "$BASE_URL/article/list/$page/json"
         }
 
     }
@@ -16,7 +16,14 @@ object API {
         const val Category = "$BASE_URL/project/tree/json"
 
         fun projectList(page: Int):String{
-            return "https://www.wanandroid.com/project/list/$page/json"
+            return "$BASE_URL/project/list/$page/json"
+        }
+    }
+    object WeChat{
+        const val Category = "$BASE_URL/wxarticle/chapters/json"
+
+        fun projectList(id:Int,page: Int):String{
+            return "$BASE_URL/wxarticle/list/$id/$page/json"
         }
     }
 }
