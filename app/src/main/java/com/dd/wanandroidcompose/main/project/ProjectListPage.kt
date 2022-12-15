@@ -4,7 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,50 +29,68 @@ fun ProjectListPage(
     LazyVerticalStaggeredGrid(
         modifier = Modifier.fillMaxSize(),
         //Item列数
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Fixed(1),
         // 整体内边距
         contentPadding = PaddingValues(0.dp, 0.dp),
         // item 和 item 之间的纵向间距
         verticalArrangement = Arrangement.spacedBy(0.dp),
         // item 和 item 之间的横向间距
-        horizontalArrangement = Arrangement.spacedBy(0.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
 
         content = {
             items(listData.itemCount) { index ->
                 listData[index]?.let {
-                    ProjectListItem(it, index)
+                    ProjectListItem(it)
                 }
             }
         })
 }
 
 @Composable
-fun ProjectListItem(item: CategoryDetails, index: Int) {
-    Card(
+fun ProjectListItem(item: CategoryDetails) {
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-
+                .height(120.dp)
         ) {
             AsyncImage(
                 model = item.envelopePic,
                 contentDescription = "图片",
                 modifier = Modifier
-                    .height(if (index == 0) 100.dp else 150.dp)
-                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .fillMaxHeight()
+                    .width(60.dp)
             )
-            Text(
-                text = item.desc,
-                style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+
+            ) {
+                Text(
+                    text = item.title,
+                    style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = item.desc,
+                    style = TextStyle(fontSize = 10.sp, color = AppTheme.colors.textPrimary),
+                    maxLines = 5,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp),
+            color = AppTheme.colors.divider
+        )
     }
+
 }

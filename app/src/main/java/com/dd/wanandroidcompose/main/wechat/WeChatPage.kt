@@ -51,7 +51,7 @@ fun WeChatPage(navCtrl: NavHostController, scaffoldState: ScaffoldState) {
         HorizontalPager(
             count = titles.size, state = pagerState,
             // Add 16.dp padding to 'center' the pages
-            contentPadding = PaddingValues(16.dp), modifier = Modifier
+            contentPadding = PaddingValues(0.dp), modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
         ) { page ->
