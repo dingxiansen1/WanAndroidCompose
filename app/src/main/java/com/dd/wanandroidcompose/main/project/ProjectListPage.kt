@@ -47,7 +47,7 @@ fun ProjectListPage(
 }
 
 @Composable
-fun ProjectListItem(item: CategoryDetails) {
+fun ProjectListItem(data: CategoryDetails) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,7 +58,7 @@ fun ProjectListItem(item: CategoryDetails) {
                 .height(120.dp)
         ) {
             AsyncImage(
-                model = item.envelopePic,
+                model = data.envelopePic,
                 contentDescription = "图片",
                 modifier = Modifier
                     .padding(10.dp)
@@ -72,13 +72,13 @@ fun ProjectListItem(item: CategoryDetails) {
 
             ) {
                 Text(
-                    text = item.title,
+                    text = data.title,
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = item.desc,
+                    text = data.desc,
                     style = TextStyle(fontSize = 10.sp, color = AppTheme.colors.textPrimary),
                     maxLines = 5,
                     overflow = TextOverflow.Ellipsis
