@@ -1,6 +1,7 @@
 package com.dd.wanandroidcompose.main.project
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -14,15 +15,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.dd.base.theme.AppTheme
 import com.dd.wanandroidcompose.bean.project.CategoryDetails
+import com.dd.wanandroidcompose.navigator.RouteName
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProjectListPage(
-    cid: Int
+    cid: Int, navCtrl: NavHostController
 ) {
     val viewModel: ProjectListViewModel = hiltViewModel()
     val listData = viewModel.projectList(cid).collectAsLazyPagingItems()
@@ -40,17 +43,20 @@ fun ProjectListPage(
         content = {
             items(listData.itemCount) { index ->
                 listData[index]?.let {
-                    ProjectListItem(it)
+                    ProjectListItem(it,navCtrl)
                 }
             }
         })
 }
 
 @Composable
-fun ProjectListItem(data: CategoryDetails) {
+fun ProjectListItem(data: CategoryDetails,navCtrl: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                navCtrl.navigate("${RouteName.Web}?link=${data.link}&title=${data.title}")
+            }
     ) {
         Row(
             modifier = Modifier
@@ -70,7 +76,7 @@ fun ProjectListItem(data: CategoryDetails) {
                     .fillMaxSize()
                     .padding(10.dp),
 
-            ) {
+                ) {
                 Text(
                     text = data.title,
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),

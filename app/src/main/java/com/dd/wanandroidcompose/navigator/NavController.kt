@@ -18,16 +18,14 @@ fun NavController() {
         composable(RouteName.Search) { SearchPage(navController) } //搜索
         //WebView
         composable(
-            route = RouteName.Web + "/{webData}",
+            route = RouteName.Web + "?link={link}&title={title}",
             arguments = listOf(
-                navArgument("url") { type = NavType.StringType },
+                navArgument("link") { type = NavType.StringType },
                 navArgument("title") { type = NavType.StringType })
         ) {
-            val url = it.arguments?.getString("url")
+            val link = it.arguments?.getString("link") ?:"https://www.wanandroid.com"
             val title = it.arguments?.getString("title")
-            if (url != null) {
-                WebViewPage(url, title, navController)
-            }
+            WebViewPage(link, title, navController)
         }
     }
 

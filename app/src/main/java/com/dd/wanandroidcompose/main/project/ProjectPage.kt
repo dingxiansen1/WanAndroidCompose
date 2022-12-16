@@ -55,7 +55,7 @@ fun ProjectPage(navCtrl: NavHostController, scaffoldState: ScaffoldState) {
                 .weight(1f)
                 .fillMaxWidth()
         ) { page ->
-            ProjectListPage(titles[page].id)
+            ProjectListPage(titles[page].id,navCtrl)
         }
     }
 }

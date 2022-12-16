@@ -54,10 +54,10 @@ fun HomePage(
                     SearchBarNotClickable(hint = "jetpack compose") {
                         navCtrl.navigate(RouteName.Search)
                     }
-                    BannerItem(banner)
+                    BannerItem(banner, navCtrl)
                 }
                 itemsIndexed(listData) { _, item ->
-                    HomeDataItem(item!!)
+                    HomeDataItem(item!!,navCtrl)
                 }
 
             })
@@ -68,7 +68,7 @@ fun HomePage(
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun BannerItem(banner: List<HomeBanner>) {
+fun BannerItem(banner: List<HomeBanner>, navCtrl: NavHostController) {
     Banner(modifier = Modifier
         .background(AppTheme.colors.background)
         .fillMaxWidth()
@@ -76,24 +76,26 @@ fun BannerItem(banner: List<HomeBanner>) {
         .height(150.dp),
         list = banner,
         onClick = { url, title ->
-            showToast(title)
+            navCtrl.navigate("${RouteName.Web}?link=${url}&title=${title}")
         })
 }
 
 @Composable
-fun HomeDataItem(data: HomeData) {
+fun HomeDataItem(data: HomeData, navCtrl: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
             .padding(10.dp, 5.dp)
-            .clickable { },
+            .clickable {
+                navCtrl.navigate("${RouteName.Web}?link=${data.link}&title=${data.title}")
+            },
         elevation = 10.dp // 设置阴影
     ) {
         Column(
-          modifier = Modifier
-              .fillMaxSize()
-              .padding(5.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(5.dp),
         ) {
             Row(
                 modifier = Modifier
