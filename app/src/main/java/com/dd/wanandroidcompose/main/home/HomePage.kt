@@ -21,9 +21,11 @@ import coil.annotation.ExperimentalCoilApi
 import com.dd.base.ext.showToast
 import com.dd.base.theme.AppTheme
 import com.dd.base.widget.Banner
+import com.dd.base.widget.SearchBarNotClickable
 import com.dd.base.widget.SwipeRefreshList
 import com.dd.wanandroidcompose.bean.home.HomeBanner
 import com.dd.wanandroidcompose.bean.home.HomeData
+import com.dd.wanandroidcompose.navigator.RouteName
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -49,6 +51,9 @@ fun HomePage(
             },
             itemContent = {
                 item {
+                    SearchBarNotClickable(hint = "jetpack compose") {
+                        navCtrl.navigate(RouteName.Search)
+                    }
                     BannerItem(banner)
                 }
                 itemsIndexed(listData) { _, item ->
@@ -86,12 +91,14 @@ fun HomeDataItem(data: HomeData) {
         elevation = 10.dp // 设置阴影
     ) {
         Column(
-          modifier =   Modifier
-                .fillMaxSize()
-                .padding(5.dp),
+          modifier = Modifier
+              .fillMaxSize()
+              .padding(5.dp),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -104,14 +111,18 @@ fun HomeDataItem(data: HomeData) {
                 )
             }
             Text(
-                modifier = Modifier.fillMaxWidth().weight(3f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(3f),
                 text = data.title,
                 style = TextStyle(fontSize = 16.sp, color = AppTheme.colors.textPrimary),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Row(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(

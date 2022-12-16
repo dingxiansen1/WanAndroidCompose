@@ -26,4 +26,10 @@ object API {
             return "$BASE_URL/wxarticle/list/$id/$page/json"
         }
     }
+    object Search{
+        //post
+        fun search(page:Int):String{
+            return "$BASE_URL/article/query/$page/json"
+        }
+    }
 }
