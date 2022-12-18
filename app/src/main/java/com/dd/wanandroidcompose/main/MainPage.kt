@@ -19,7 +19,7 @@ import com.dd.base.theme.Themem
 import com.dd.base.utils.sdp
 import com.dd.wanandroidcompose.R
 import com.dd.wanandroidcompose.main.home.HomePage
-import com.dd.wanandroidcompose.main.main.MinePage
+import com.dd.wanandroidcompose.main.mine.MinePage
 import com.dd.wanandroidcompose.main.project.ProjectPage
 import com.dd.wanandroidcompose.main.wechat.WeChatPage
 
@@ -59,7 +59,7 @@ fun MainPage(navCtrl: NavHostController) {
                                         contentDescription = "项目", modifier = size
                                     )
                                     2 -> Icon(
-                                        ImageBitmap.imageResource(id = R.mipmap.main_project),
+                                        ImageBitmap.imageResource(id = R.mipmap.main_wechat),
                                         contentDescription = "微信公众号", modifier = size
                                     )
                                     else -> Icon(
@@ -83,10 +83,10 @@ fun MainPage(navCtrl: NavHostController) {
             Box(modifier = Modifier.padding(it)) {
                 AnimatedContent(targetState = selectedItem) { targetState ->
                     when (targetState) {
-                        0 -> HomePage(navCtrl, scaffoldState = scaffoldState)
-                        1 -> ProjectPage(navCtrl, scaffoldState = scaffoldState)
-                        2 -> WeChatPage(navCtrl, scaffoldState = scaffoldState)
-                        else -> MinePage(navCtrl, scaffoldState = scaffoldState)
+                        0 -> HomePage(navCtrl)
+                        1 -> ProjectPage(navCtrl)
+                        2 -> WeChatPage(navCtrl)
+                        else -> MinePage(navCtrl)
                     }
                 }
             }

@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun WeChatPage(navCtrl: NavHostController, scaffoldState: ScaffoldState) {
+fun WeChatPage(navCtrl: NavHostController) {
     val viewModel = hiltViewModel<WeChatViewModel>()
     val titles = viewModel.viewStates.category
     val pagerState = rememberPagerState()

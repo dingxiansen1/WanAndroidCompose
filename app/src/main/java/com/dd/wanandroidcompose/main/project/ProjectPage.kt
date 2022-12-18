@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProjectPage(navCtrl: NavHostController, scaffoldState: ScaffoldState) {
+fun ProjectPage(navCtrl: NavHostController,) {
     val viewModel: ProjectViewModel = hiltViewModel()
     val titles = viewModel.viewStates.category
     val pagerState = rememberPagerState()
