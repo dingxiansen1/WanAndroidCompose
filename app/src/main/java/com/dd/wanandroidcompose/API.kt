@@ -27,6 +27,8 @@ object API {
         }
     }
     object Search{
+
+        const val HotKeys = "$BASE_URL/hotkey/json"
         //post
         fun search(page:Int):String{
             return "$BASE_URL/article/query/$page/json"

@@ -68,6 +68,7 @@ dependencies {
     debugImplementation Compose.ui_test_manifest
 
     implementation Compose.navigation
+    implementation Compose.flowlayout
 
     //retrofit2
     implementation Other.retrofit

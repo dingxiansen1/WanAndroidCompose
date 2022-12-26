@@ -84,6 +84,7 @@ object Compose{
    private const val viewpaper_version = "0.25.0"
    const val viewpager= "com.google.accompanist:accompanist-pager:${viewpaper_version}"
    const val viewpager_indicators= "com.google.accompanist:accompanist-pager-indicators:${viewpaper_version}"
+   const val flowlayout= "com.google.accompanist:accompanist-flowlayout:${viewpaper_version}"
 }
 
 object Other{
