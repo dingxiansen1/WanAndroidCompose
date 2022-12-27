@@ -48,7 +48,6 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
 }
 
 data class SearchViewState(
-    var searchKey: String = "",
     var searchHistory: List<SearchHistory> = emptyList(),
     var hotKey: List<HotKey> = emptyList(),
 )

@@ -4,8 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -19,47 +20,77 @@ import com.dd.base.theme.Themem
 import com.dd.base.utils.sdp
 import com.dd.base.widget.SearchBar
 import com.dd.wanandroidcompose.bean.search.SearchHistory
+import com.dd.wanandroidcompose.navigator.RouteName
 import com.google.accompanist.flowlayout.FlowRow
 
 
 @Composable
 fun SearchPage(navCtrl: NavHostController) {
     val viewModel = hiltViewModel<SearchViewModel>()
+    var searchKey by remember {
+        mutableStateOf("")
+    }
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
         Column(modifier = Modifier.fillMaxSize()) {
-            SearchBar(hint = "jetpack") {
-                viewModel.viewState.searchKey = it
-            }
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                mainAxisSpacing = 8.dp,
-                crossAxisSpacing = 8.dp,
-            ) {
-                viewModel.viewState.hotKey.forEach {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = Color(0xFFDDDDDD),
-                                shape = RoundedCornerShape(percent = 50)
-                            )
-                            .clip(RoundedCornerShape(percent = 50))
-                            .clickable {
-                                viewModel.addSearchHistory(SearchHistory(it.name))
-                                //跳转页面 todo
+            Row {
+                SearchBar(hint = "jetpack") {
+                    searchKey = it
+                }
+                Text(
+                    text = "搜索",
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .clickable {
+                            //如果没在历史记录中，就添加记录
+                            if (SearchHistory(searchKey) !in viewModel.viewState.searchHistory) {
+                                viewModel.addSearchHistory((SearchHistory(searchKey)))
                             }
-                    ) {
-                        Text(
-                            text = it.name,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            color = AppTheme.colors.textPrimary,
-                            fontSize = 14.sp,
-                            maxLines = 1
-                        )
+                            navCtrl.navigate("${RouteName.SearchResult}?key=${searchKey}")
+                        },
+                    color = MaterialTheme.colors.secondary,
+                    fontSize = 14.sp
+                )
+            }
+            if (viewModel.viewState.hotKey.isNotEmpty()) {
+                Text(
+                    text = "热门搜索",
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = MaterialTheme.colors.secondary,
+                    fontSize = 16.sp
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    mainAxisSpacing = 8.dp,
+                    crossAxisSpacing = 8.dp,
+                ) {
+                    viewModel.viewState.hotKey.forEach {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    color = AppTheme.colors.divider,
+                                    shape = RoundedCornerShape(percent = 50)
+                                )
+                                .clip(RoundedCornerShape(percent = 50))
+                                .clickable {
+                                    viewModel.addSearchHistory(SearchHistory(it.name))
+                                    navCtrl.navigate("${RouteName.SearchResult}?key=${it.name}")
+                                }
+                        ) {
+                            Text(
+                                text = it.name,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                color = AppTheme.colors.background,
+                                fontSize = 14.sp,
+                                maxLines = 1
+                            )
+                        }
                     }
                 }
             }
+
         }
     }
 }
