@@ -55,7 +55,7 @@ fun WeChatPage(navCtrl: NavHostController) {
                 .weight(1f)
                 .fillMaxWidth()
         ) { page ->
-            WeChatListPage(titles[page].id)
+            WeChatListPage(titles[page].id,navCtrl)
         }
     }
 }

@@ -3,10 +3,12 @@ package com.dd.wanandroidcompose.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -32,14 +34,14 @@ fun SearchPage(navCtrl: NavHostController) {
     }
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Row {
-                SearchBar(hint = "jetpack") {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SearchBar(modifier = Modifier.width(300.dp), hint = "jetpack") {
                     searchKey = it
                 }
                 Text(
                     text = "搜索",
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 6.dp)
                         .clickable {
                             //如果没在历史记录中，就添加记录
                             if (SearchHistory(searchKey) !in viewModel.viewState.searchHistory) {
@@ -47,7 +49,7 @@ fun SearchPage(navCtrl: NavHostController) {
                             }
                             navCtrl.navigate("${RouteName.SearchResult}?key=${searchKey}")
                         },
-                    color = MaterialTheme.colors.secondary,
+                    color = AppTheme.colors.textPrimary,
                     fontSize = 14.sp
                 )
             }
@@ -55,7 +57,7 @@ fun SearchPage(navCtrl: NavHostController) {
                 Text(
                     text = "热门搜索",
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    color = MaterialTheme.colors.secondary,
+                    color = AppTheme.colors.textPrimary,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -70,10 +72,9 @@ fun SearchPage(navCtrl: NavHostController) {
                         Box(
                             modifier = Modifier
                                 .background(
-                                    color = AppTheme.colors.divider,
-                                    shape = RoundedCornerShape(percent = 50)
+                                    AppTheme.colors.divider, CircleShape
                                 )
-                                .clip(RoundedCornerShape(percent = 50))
+                                .clip(CircleShape)
                                 .clickable {
                                     viewModel.addSearchHistory(SearchHistory(it.name))
                                     navCtrl.navigate("${RouteName.SearchResult}?key=${it.name}")
