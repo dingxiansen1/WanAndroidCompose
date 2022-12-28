@@ -23,9 +23,21 @@ android {
             useSupportLibrary true
         }
     }
-
+    signingConfigs {
+        config {
+            keyAlias 'dingdi'
+            keyPassword 'dingdi'
+            storeFile file('../dingdi.jks')
+            storePassword 'dingdi'
+        }
+    }
     buildTypes {
         release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -51,9 +63,9 @@ android {
 }
 
 dependencies {
-    if (isAAR.toBoolean()){
+    if (isAAR.toBoolean()) {
         implementation fileTree(dir: "libs", includes: ["*"])
-    }else {
+    } else {
         implementation project(path: ':base')
     }
     implementation Compose.ui

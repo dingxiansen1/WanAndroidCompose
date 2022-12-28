@@ -24,7 +24,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.dd.base.theme.AppTheme
 import com.dd.wanandroidcompose.bean.project.CategoryDetails
-import com.dd.wanandroidcompose.main.wechat.WeChatListViewModel
 import com.dd.wanandroidcompose.navigator.RouteName
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -32,9 +31,9 @@ import com.dd.wanandroidcompose.navigator.RouteName
 fun ProjectListPage(
     cid: Int, navCtrl: NavHostController
 ) {
-   /*  val viewModel: ProjectListViewModel = hiltViewModel()
-    val listData = viewModel.projectList(cid).collectAsLazyPagingItems()  */
-    val viewModel: ProjectListViewModel = viewModel(key = cid.toString(),factory = remember {
+    /*  val viewModel: ProjectListViewModel = hiltViewModel()
+     val listData = viewModel.projectList(cid).collectAsLazyPagingItems()  */
+    val viewModel: ProjectListViewModel = viewModel(key = cid.toString(), factory = remember {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
@@ -57,14 +56,14 @@ fun ProjectListPage(
         content = {
             items(listData.itemCount) { index ->
                 listData[index]?.let {
-                    ProjectListItem(it,navCtrl)
+                    ProjectListItem(it, navCtrl)
                 }
             }
         })
 }
 
 @Composable
-fun ProjectListItem(data: CategoryDetails,navCtrl: NavHostController) {
+fun ProjectListItem(data: CategoryDetails, navCtrl: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
