@@ -25,10 +25,10 @@ android {
     }
     signingConfigs {
         config {
-            keyAlias 'dingdi'
-            keyPassword 'dingdi'
-            storeFile file('../dingdi.jks')
-            storePassword 'dingdi'
+            keyAlias keyAlias.toString()
+            keyPassword keyPassword.toString()
+            storeFile file(storeFile.toString())
+            storePassword storePassword.toString()
         }
     }
     buildTypes {
