@@ -1,7 +1,5 @@
 package com.dd.wanandroidcompose.main
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,7 +21,6 @@ import com.dd.wanandroidcompose.main.mine.MinePage
 import com.dd.wanandroidcompose.main.project.ProjectPage
 import com.dd.wanandroidcompose.main.wechat.WeChatPage
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainPage(navCtrl: NavHostController) {
     val scaffoldState = rememberScaffoldState()
@@ -81,13 +78,19 @@ fun MainPage(navCtrl: NavHostController) {
         ) {
             // 此处需要编写主界面
             Box(modifier = Modifier.padding(it)) {
-                AnimatedContent(targetState = selectedItem) { targetState ->
+                /*AnimatedContent(targetState = selectedItem) { targetState ->
                     when (targetState) {
                         0 -> HomePage(navCtrl)
                         1 -> ProjectPage(navCtrl)
                         2 -> WeChatPage(navCtrl)
                         else -> MinePage(navCtrl)
                     }
+                }*/
+                when (selectedItem) {
+                    0 -> HomePage(navCtrl)
+                    1 -> ProjectPage(navCtrl)
+                    2 -> WeChatPage(navCtrl)
+                    else -> MinePage(navCtrl)
                 }
             }
         }

@@ -3,15 +3,22 @@ package com.dd.wanandroidcompose.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.R
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,6 +36,8 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun SearchPage(navCtrl: NavHostController) {
     val viewModel = hiltViewModel<SearchViewModel>()
+    val hotkeys = viewModel.viewState.hotKey
+    val searchHistory = viewModel.viewState.searchHistory
     var searchKey by remember {
         mutableStateOf("")
     }
@@ -53,7 +62,7 @@ fun SearchPage(navCtrl: NavHostController) {
                     fontSize = 14.sp
                 )
             }
-            if (viewModel.viewState.hotKey.isNotEmpty()) {
+            if (hotkeys.isNotEmpty()) {
                 Text(
                     text = "热门搜索",
                     modifier = Modifier.padding(horizontal = 16.dp),
@@ -68,7 +77,7 @@ fun SearchPage(navCtrl: NavHostController) {
                     mainAxisSpacing = 8.dp,
                     crossAxisSpacing = 8.dp,
                 ) {
-                    viewModel.viewState.hotKey.forEach {
+                    hotkeys.forEach {
                         Box(
                             modifier = Modifier
                                 .background(
@@ -91,7 +100,43 @@ fun SearchPage(navCtrl: NavHostController) {
                     }
                 }
             }
-
+            if (searchHistory.isNotEmpty()) {
+                LazyColumn(content = {
+                    itemsIndexed(searchHistory) { index, item ->
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navCtrl.navigate("${RouteName.SearchResult}?key=${searchKey}")
+                            }) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                            ) {
+                                Text(
+                                    text = item.name,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .align(Alignment.CenterVertically),
+                                    color = MaterialTheme.colors.secondary,
+                                    fontSize = 14.sp,
+                                    maxLines = 1
+                                )
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = "删除",
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .clickable {
+                                            viewModel.delSearchHistory(item)
+                                        },
+                                    tint = MaterialTheme.colors.onBackground
+                                )
+                            }
+                        }
+                    }
+                })
+            }
         }
     }
 }
