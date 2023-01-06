@@ -6,6 +6,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlinx-serialization'
 }
+//apply from: "signing.gradle"
 
 android {
     namespace 'com.dd.wanandroidcompose'
@@ -23,19 +24,19 @@ android {
             useSupportLibrary true
         }
     }
-    signingConfigs {
+    /*signingConfigs {
         config {
-            keyAlias keyAlias.toString()
-            keyPassword keyPassword.toString()
-            storeFile file(storeFile.toString())
-            storePassword storePassword.toString()
+            keyAlias keyAlias
+            keyPassword keyPassword
+            storeFile file(storeFile)
+            storePassword storePassword
         }
-    }
+    }*/
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+         //   signingConfig signingConfigs.config
         }
         debug {
             minifyEnabled false

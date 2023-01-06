@@ -54,10 +54,21 @@ fun HomePage(
                     SearchBarNotClickable(hint = "jetpack compose") {
                         navCtrl.navigate(RouteName.Search)
                     }
-                    BannerItem(banner, navCtrl)
+                    BannerItem(banner) { url, title ->
+                        navCtrl.navigate("${RouteName.Web}?link=${url}&title=${title}")
+                    }
                 }
-                itemsIndexed(listData) { _, item ->
-                    HomeDataItem(item!!,navCtrl)
+                itemsIndexed(listData) { index, item ->
+                    HomeDataItem(
+                        item!!,
+                        onClick = {
+                            navCtrl.navigate("${RouteName.Web}?link=${item.link}&title=${item.title}")
+                        },
+                        collectOnClick = {
+                            listData[index]?.collect = listData[index]?.collect != true
+                            viewModel.collect()
+                        }
+                    )
                 }
 
             })
@@ -68,7 +79,7 @@ fun HomePage(
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
-fun BannerItem(banner: List<HomeBanner>, navCtrl: NavHostController) {
+fun BannerItem(banner: List<HomeBanner>, onClick: ((String, String) -> Unit)) {
     Banner(modifier = Modifier
         .background(AppTheme.colors.background)
         .fillMaxWidth()
@@ -76,19 +87,19 @@ fun BannerItem(banner: List<HomeBanner>, navCtrl: NavHostController) {
         .height(150.dp),
         list = banner,
         onClick = { url, title ->
-            navCtrl.navigate("${RouteName.Web}?link=${url}&title=${title}")
+            onClick.invoke(url, title)
         })
 }
 
 @Composable
-fun HomeDataItem(data: HomeData, navCtrl: NavHostController) {
+fun HomeDataItem(data: HomeData, onClick: (() -> Unit), collectOnClick: (() -> Unit)) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
             .padding(10.dp, 5.dp)
             .clickable {
-                navCtrl.navigate("${RouteName.Web}?link=${data.link}&title=${data.title}")
+                onClick.invoke()
             },
         elevation = 10.dp // 设置阴影
     ) {
@@ -108,6 +119,7 @@ fun HomeDataItem(data: HomeData, navCtrl: NavHostController) {
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
                 )
                 Text(
+                    modifier = Modifier.padding(end = 10.dp),
                     text = data.niceDate,
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
                 )
@@ -131,15 +143,18 @@ fun HomeDataItem(data: HomeData, navCtrl: NavHostController) {
                     text = data.superChapterName,
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
                 )
-                IconButton(onClick = {
-                    data.collect = !data.collect
-                }) {
-                    Icon(
-                        Icons.Filled.Favorite,
-                        contentDescription = "收藏",
-                        tint = if (data.collect) AppTheme.colors.error else AppTheme.colors.divider
-                    )
-                }
+
+                Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "收藏",
+                    tint = if (data.collect) AppTheme.colors.error else AppTheme.colors.divider,
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .clickable {
+                            collectOnClick.invoke()
+                        }
+                )
+
             }
         }
 

@@ -3,11 +3,9 @@ package com.dd.wanandroidcompose.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.R
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -17,8 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,7 +22,6 @@ import androidx.navigation.NavHostController
 import com.dd.base.theme.AppTheme
 import com.dd.base.theme.ComposeAppTheme
 import com.dd.base.theme.Themem
-import com.dd.base.utils.sdp
 import com.dd.base.widget.SearchBar
 import com.dd.wanandroidcompose.bean.search.SearchHistory
 import com.dd.wanandroidcompose.navigator.RouteName
@@ -36,25 +31,28 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun SearchPage(navCtrl: NavHostController) {
     val viewModel = hiltViewModel<SearchViewModel>()
+    LaunchedEffect(key1 = null){
+        viewModel.dispatch(SearchViewAction.GetSearchHistory)
+    }
     val hotkeys = viewModel.viewState.hotKey
     val searchHistory = viewModel.viewState.searchHistory
-    var searchKey by remember {
-        mutableStateOf("")
-    }
+    var searchKey =viewModel.viewState.searchKey
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
         Column(modifier = Modifier.fillMaxSize()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                SearchBar(modifier = Modifier.width(300.dp), hint = "jetpack") {
+                SearchBar(modifier = Modifier.weight(5f), key = searchKey, hint = "jetpack") {
                     searchKey = it
+                    viewModel.dispatch(SearchViewAction.SetSearchKey(it))
                 }
                 Text(
                     text = "搜索",
                     modifier = Modifier
+                        .weight(1f)
                         .padding(horizontal = 6.dp)
                         .clickable {
                             //如果没在历史记录中，就添加记录
                             if (SearchHistory(searchKey) !in viewModel.viewState.searchHistory) {
-                                viewModel.addSearchHistory((SearchHistory(searchKey)))
+                                viewModel.dispatch(SearchViewAction.AddSearchHistory((SearchHistory(searchKey))))
                             }
                             navCtrl.navigate("${RouteName.SearchResult}?key=${searchKey}")
                         },
@@ -85,7 +83,7 @@ fun SearchPage(navCtrl: NavHostController) {
                                 )
                                 .clip(CircleShape)
                                 .clickable {
-                                    viewModel.addSearchHistory(SearchHistory(it.name))
+                                    viewModel.dispatch(SearchViewAction.AddSearchHistory((SearchHistory(it.name))))
                                     navCtrl.navigate("${RouteName.SearchResult}?key=${it.name}")
                                 }
                         ) {
@@ -101,6 +99,13 @@ fun SearchPage(navCtrl: NavHostController) {
                 }
             }
             if (searchHistory.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "搜索历史",
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    color = AppTheme.colors.textPrimary,
+                    fontSize = 16.sp
+                )
                 LazyColumn(content = {
                     itemsIndexed(searchHistory) { index, item ->
                         Box(modifier = Modifier
@@ -118,7 +123,7 @@ fun SearchPage(navCtrl: NavHostController) {
                                     modifier = Modifier
                                         .weight(1f)
                                         .align(Alignment.CenterVertically),
-                                    color = MaterialTheme.colors.secondary,
+                                    color = AppTheme.colors.textPrimary,
                                     fontSize = 14.sp,
                                     maxLines = 1
                                 )
@@ -128,7 +133,7 @@ fun SearchPage(navCtrl: NavHostController) {
                                     modifier = Modifier
                                         .size(20.dp)
                                         .clickable {
-                                            viewModel.delSearchHistory(item)
+                                            viewModel.dispatch(SearchViewAction.RemoveSearchHistory(item))
                                         },
                                     tint = MaterialTheme.colors.onBackground
                                 )

@@ -20,34 +20,62 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     var viewState by mutableStateOf(SearchViewState())
 
     init {
-        getData()
+        getHotKey()
     }
 
-    private fun getData() {
-        launch {
-            val hotkey = async {
-               RxHttpUtils.getAwait<List<HotKey>>(API.Search.HotKeys) ?: emptyList()
-            }
-            val searchHistory = async {
-                RoomUtils.getSearchHistory() ?: emptyList()
-            }
-            viewState = SearchViewState(hotKey = hotkey.await(), searchHistory = searchHistory.await())
+    fun dispatch(action: SearchViewAction) {
+        when (action) {
+            is SearchViewAction.GetSearchHistory -> getSearchHistory()
+            is SearchViewAction.RemoveSearchHistory -> delSearchHistory(action.del)
+            is SearchViewAction.AddSearchHistory -> addSearchHistory(action.add)
+            is SearchViewAction.SetSearchKey -> setSearchKey(action.key)
         }
     }
 
-    fun addSearchHistory(item :SearchHistory){
+    private fun setSearchKey(key: String) {
+        viewState = viewState.copy(searchKey = key)
+    }
+
+    private fun getSearchHistory() {
+        launch {
+            val searchHistory = RoomUtils.getSearchHistory() ?: emptyList()
+            viewState = viewState.copy(searchHistory = searchHistory)
+        }
+
+    }
+
+    private fun getHotKey() {
+        launch {
+            val hotkey = RxHttpUtils.getAwait<List<HotKey>>(API.Search.HotKeys) ?: emptyList()
+            viewState = SearchViewState(hotKey = hotkey)
+        }
+    }
+
+    private fun addSearchHistory(item: SearchHistory) {
         launch {
             RoomUtils.addSearchHistory(item)
         }
     }
-    fun delSearchHistory(item :SearchHistory){
+
+    private fun delSearchHistory(item: SearchHistory) {
         launch {
+            val searchHistory = viewState.searchHistory as MutableList<SearchHistory>
+            searchHistory.remove(item)
+            viewState = viewState.copy(searchHistory = searchHistory)
             RoomUtils.delSearchHistory(item)
         }
     }
 }
 
+sealed class SearchViewAction {
+    object GetSearchHistory : SearchViewAction()
+    data class RemoveSearchHistory(val del: SearchHistory) : SearchViewAction()
+    data class AddSearchHistory(val add: SearchHistory) : SearchViewAction()
+    data class SetSearchKey(val key: String) : SearchViewAction()
+}
+
 data class SearchViewState(
     var searchHistory: List<SearchHistory> = emptyList(),
     var hotKey: List<HotKey> = emptyList(),
+    var searchKey: String = "",
 )

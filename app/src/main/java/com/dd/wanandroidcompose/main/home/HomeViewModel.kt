@@ -44,6 +44,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun collect(){
+
+    }
 }
 
 typealias PagingArticle = Flow<PagingData<HomeData>>

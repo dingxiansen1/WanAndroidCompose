@@ -1,13 +1,11 @@
 package com.dd.wanandroidcompose.main.wechat
 
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.dd.base.base.BaseViewModel
 import com.dd.base.ext.launch
 import com.dd.wanandroidcompose.API
-import com.dd.wanandroidcompose.bean.project.Category
 import com.dd.wanandroidcompose.bean.wechat.WeChatCategory
 import com.dd.wanandroidcompose.net.RxHttpUtils
 import com.dd.wanandroidcompose.utils.RoomUtils
