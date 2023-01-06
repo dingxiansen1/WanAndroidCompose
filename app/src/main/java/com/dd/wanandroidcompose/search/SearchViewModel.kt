@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     fun dispatch(action: SearchViewAction) {
         when (action) {
             is SearchViewAction.GetSearchHistory -> getSearchHistory()
-            is SearchViewAction.RemoveSearchHistory -> delSearchHistory(action.del)
+            is SearchViewAction.DelSearchHistory -> delSearchHistory(action.del)
             is SearchViewAction.AddSearchHistory -> addSearchHistory(action.add)
             is SearchViewAction.SetSearchKey -> setSearchKey(action.key)
         }
@@ -69,7 +69,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
 
 sealed class SearchViewAction {
     object GetSearchHistory : SearchViewAction()
-    data class RemoveSearchHistory(val del: SearchHistory) : SearchViewAction()
+    data class DelSearchHistory(val del: SearchHistory) : SearchViewAction()
     data class AddSearchHistory(val add: SearchHistory) : SearchViewAction()
     data class SetSearchKey(val key: String) : SearchViewAction()
 }

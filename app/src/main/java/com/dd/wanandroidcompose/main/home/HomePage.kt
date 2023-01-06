@@ -26,6 +26,7 @@ import com.dd.base.widget.SwipeRefreshList
 import com.dd.wanandroidcompose.bean.home.HomeBanner
 import com.dd.wanandroidcompose.bean.home.HomeData
 import com.dd.wanandroidcompose.navigator.RouteName
+import com.dd.wanandroidcompose.search.SearchViewAction
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -65,8 +66,7 @@ fun HomePage(
                             navCtrl.navigate("${RouteName.Web}?link=${item.link}&title=${item.title}")
                         },
                         collectOnClick = {
-                            listData[index]?.collect = listData[index]?.collect != true
-                            viewModel.collect()
+                            listData[index]?.collect = !item.collect
                         }
                     )
                 }
@@ -143,18 +143,15 @@ fun HomeDataItem(data: HomeData, onClick: (() -> Unit), collectOnClick: (() -> U
                     text = data.superChapterName,
                     style = TextStyle(fontSize = 12.sp, color = AppTheme.colors.textPrimary),
                 )
-
-                Icon(
-                    Icons.Filled.Favorite,
-                    contentDescription = "收藏",
-                    tint = if (data.collect) AppTheme.colors.error else AppTheme.colors.divider,
-                    modifier = Modifier
-                        .padding(end = 10.dp)
-                        .clickable {
-                            collectOnClick.invoke()
-                        }
-                )
-
+                IconButton(onClick = {
+                    collectOnClick.invoke()
+                }) {
+                    Icon(
+                        Icons.Filled.Favorite,
+                        contentDescription = "收藏",
+                        tint = if (data.collect) AppTheme.colors.error else AppTheme.colors.divider,
+                    )
+                }
             }
         }
 

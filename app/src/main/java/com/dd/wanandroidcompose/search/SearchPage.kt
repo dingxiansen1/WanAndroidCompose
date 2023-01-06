@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -133,7 +134,7 @@ fun SearchPage(navCtrl: NavHostController) {
                                     modifier = Modifier
                                         .size(20.dp)
                                         .clickable {
-                                            viewModel.dispatch(SearchViewAction.RemoveSearchHistory(item))
+                                            viewModel.dispatch(SearchViewAction.DelSearchHistory(item))
                                         },
                                     tint = MaterialTheme.colors.onBackground
                                 )
