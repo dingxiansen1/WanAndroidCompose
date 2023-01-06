@@ -1,11 +1,12 @@
 package com.dd.wanandroidcompose.bean.wechat
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
-
+@Keep
 @Entity(tableName = "weChatCategory")
 @Serializable
 data class WeChatCategory(

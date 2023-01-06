@@ -1,25 +1,24 @@
 package com.dd.wanandroidcompose.main.wechat
 
-import androidx.compose.foundation.background
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,17 +26,21 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
 import com.dd.base.theme.AppTheme
-import com.dd.base.widget.SwipeRefreshList
+import com.dd.wanandroidcompose.R
 import com.dd.wanandroidcompose.bean.wechat.WeChatCategoryDetails
 import com.dd.wanandroidcompose.navigator.RouteName
-import com.dd.wanandroidcompose.utils.viewModelInstance
+import com.dd.wanandroidcompose.widget.pullRefreshLayout
+import com.dd.wanandroidcompose.widget.rememberPullRefreshLayoutState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WeChatListPage(cid: Int,navCtrl: NavHostController) {
-   /* val viewModel = viewModelInstance {
-        WeChatListViewModel(cid)
-    }*/
-    val viewModel: WeChatListViewModel = viewModel(key = cid.toString(),factory = remember {
+fun WeChatListPage(cid: Int, navCtrl: NavHostController) {
+    /* val viewModel = viewModelInstance {
+         WeChatListViewModel(cid)
+     }*/
+    val viewModel: WeChatListViewModel = viewModel(key = cid.toString(), factory = remember {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
@@ -47,23 +50,76 @@ fun WeChatListPage(cid: Int,navCtrl: NavHostController) {
     })
     val listData = viewModel.viewStates.data.collectAsLazyPagingItems()
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(AppTheme.colors.background)
-    ) {
+
+    val loadingResId = listOf(
+        R.drawable.loading_big_1,
+        R.drawable.loading_big_4,
+        R.drawable.loading_big_7,
+        R.drawable.loading_big_10,
+        R.drawable.loading_big_13,
+        R.drawable.loading_big_16,
+        R.drawable.loading_big_19,
+    )
+
+    val loadingHeightPx: Float
+    with(LocalDensity.current) {
+        loadingHeightPx = 16.dp.toPx()
+    }
+
+    val loadingAnimate by rememberInfiniteTransition().animateFloat(
+        initialValue = 0f,
+        targetValue = loadingResId.size.toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(250, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    var refreshing by remember {
+        mutableStateOf(false)
+    }
+    // 用协程模拟一个耗时加载
+    val scope = rememberCoroutineScope()
+    val state = rememberPullRefreshLayoutState(refreshing = refreshing, onRefresh = {
+        scope.launch {
+            refreshing = true
+            listData.refresh()
+            delay(500)
+            refreshing = false
+        }
+    })
+    Box(Modifier.pullRefreshLayout(state)) {
         LazyColumn(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                translationY = state.position
+            },
         ) {
             itemsIndexed(listData) { _, item ->
-                WeChatItem(item!!,navCtrl)
+                WeChatItem(item!!, navCtrl)
             }
+        }
+        // Custom progress indicator
+        val id = if (refreshing) loadingAnimate else state.position % loadingResId.size
+        if (refreshing || (state.position >= loadingHeightPx * 0.5f)) {
+            Image(
+                painter = painterResource(loadingResId[id.toInt()]),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(40.dp, 16.dp)
+                    .align(Alignment.TopCenter)
+                    .graphicsLayer {
+                        translationY = state.position * 0.5f
+                    }
+            )
         }
     }
 }
 
 @Composable
-fun WeChatItem(data: WeChatCategoryDetails,navCtrl: NavHostController) {
+fun WeChatItem(data: WeChatCategoryDetails, navCtrl: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

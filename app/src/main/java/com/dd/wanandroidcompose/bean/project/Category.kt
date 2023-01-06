@@ -1,10 +1,11 @@
 package com.dd.wanandroidcompose.bean.project
 
+import androidx.annotation.Keep
 import androidx.room.*
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
-
+@Keep
 @Entity(tableName = "projectCategory")
 @Serializable
 data class Category(

@@ -1,5 +1,6 @@
 package com.dd.wanandroidcompose.bean.home
 
+import androidx.annotation.Keep
 import com.dd.base.widget.BannerData
 import kotlinx.serialization.Serializable
 
@@ -7,6 +8,7 @@ import kotlinx.serialization.SerialName
 
 
 @Serializable
+@Keep
 data class HomeBanner(
     @SerialName("desc")
     var desc: String,

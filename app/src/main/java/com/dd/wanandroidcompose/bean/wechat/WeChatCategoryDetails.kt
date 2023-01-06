@@ -1,10 +1,11 @@
 package com.dd.wanandroidcompose.bean.wechat
 
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
 
-
+@Keep
 @Serializable
 data class WeChatCategoryDetails(
     @SerialName("adminAdd")

@@ -1,11 +1,12 @@
 package com.dd.wanandroidcompose.bean.home
 
 import android.text.TextUtils
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
 import kotlinx.serialization.SerialName
 
-
+@Keep
 data class ListWrapper<T>(
     var curPage: Int,
     var offset: Int,
@@ -15,7 +16,7 @@ data class ListWrapper<T>(
     var total: Int,
     var datas: List<T>
 )
-
+@Keep
 @Serializable
 data class HomeData(
     @SerialName("adminAdd")
@@ -89,6 +90,7 @@ data class HomeData(
     @SerialName("zan")
     var zan: Int
 ) {
+    @Keep
     @Serializable
     data class Tag(
         @SerialName("name")
