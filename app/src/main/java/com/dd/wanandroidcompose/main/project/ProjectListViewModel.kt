@@ -1,5 +1,9 @@
 package com.dd.wanandroidcompose.main.project
 
+import android.os.Bundle
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,31 +20,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-/*@HiltViewModel
-class ProjectListViewModel @Inject constructor() : BaseViewModel() {*/
-class ProjectListViewModel constructor(cid: Int) : BaseViewModel() {
+@HiltViewModel
+class ProjectListViewModel @Inject constructor() : BaseViewModel() {
 
-    private val pager by lazy {
-        simplePager {
-            RxHttpUtils.getAwait<ListWrapper<CategoryDetails>>(
-                API.Project.projectList(it), mapOf("cid" to cid)
-            )!!.datas
-        }
-    }
-    var viewStates by mutableStateOf(ProjectListViewState(data = pager))
+    var viewStates by mutableStateOf(ProjectListViewState())
         private set
 
-    /* fun projectList(cid :Int): PagingProject = simplePager {
-         RxHttpUtils.getAwait<ListWrapper<CategoryDetails>>(
-             API.Project.projectList(it),
-             mapOf("cid" to cid)
-         )!!.datas
-     }*/
-
+    @OptIn(ExperimentalFoundationApi::class)
+    fun projectList(cid: Int) {
+        viewStates = viewStates.copy(data = simplePager {
+            RxHttpUtils.getAwait<ListWrapper<CategoryDetails>>(
+                API.Project.projectList(it),
+                mapOf("cid" to cid)
+            )!!.datas
+        })
+    }
 }
 
 typealias PagingProject = Flow<PagingData<CategoryDetails>>
 
-data class ProjectListViewState(
-    val data: PagingProject,
+data class ProjectListViewState @OptIn(ExperimentalFoundationApi::class) constructor(
+    val data: PagingProject? = null,
+    val listState: LazyStaggeredGridState = LazyStaggeredGridState(),
 )

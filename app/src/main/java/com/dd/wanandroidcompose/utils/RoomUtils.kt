@@ -30,12 +30,12 @@ object RoomUtils {
     suspend fun getProjectCategory():List<Category>? =  projectCategoryRoomDatabase.projectCategoryDao().getProjectCategory()
 
     /**
-     *设置项目分类
+     *设置微信分类
      **/
     suspend fun setWeChatCategory(list: List<WeChatCategory>) = weChatCategoryRoomDatabase.weChatCategoryDao().setWeChatCategory(list)
 
     /**
-     *获取项目分类
+     *获取微信分类
      **/
     suspend fun getWeChatCategory():List<WeChatCategory>? =  weChatCategoryRoomDatabase.weChatCategoryDao().getWeChatCategory()
 

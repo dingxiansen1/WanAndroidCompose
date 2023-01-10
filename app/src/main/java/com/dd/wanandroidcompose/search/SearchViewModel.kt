@@ -29,6 +29,7 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
             is SearchViewAction.DelSearchHistory -> delSearchHistory(action.del)
             is SearchViewAction.AddSearchHistory -> addSearchHistory(action.add)
             is SearchViewAction.SetSearchKey -> setSearchKey(action.key)
+            is SearchViewAction.Search -> search()
         }
     }
 
@@ -65,6 +66,10 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
             RoomUtils.delSearchHistory(item)
         }
     }
+
+    private fun search(){
+
+    }
 }
 
 sealed class SearchViewAction {
@@ -72,6 +77,7 @@ sealed class SearchViewAction {
     data class DelSearchHistory(val del: SearchHistory) : SearchViewAction()
     data class AddSearchHistory(val add: SearchHistory) : SearchViewAction()
     data class SetSearchKey(val key: String) : SearchViewAction()
+    object Search : SearchViewAction()
 }
 
 data class SearchViewState(

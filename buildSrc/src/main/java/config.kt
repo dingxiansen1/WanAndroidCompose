@@ -60,7 +60,7 @@ object Jetpack{
 
    const val hilt= "com.google.dagger:hilt-android:$hilt_version"
    const val hilt_kapt= "com.google.dagger:hilt-android-compiler:$hilt_version"
-   const val hilt_navigation= "androidx.hilt:hilt-navigation-compose:1.0.0"
+   const val hilt_navigation= "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
 
 
    const val paging= "androidx.paging:paging-runtime:3.0.1"

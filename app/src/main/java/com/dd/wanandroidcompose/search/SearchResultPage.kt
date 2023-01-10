@@ -25,6 +25,10 @@ import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun SearchResultPage(navCtrl: NavHostController,key:String) {
+    val viewModel = hiltViewModel<SearchViewModel>()
+    LaunchedEffect(key1 = key){
+        viewModel.dispatch(SearchViewAction.Search)
+    }
     ComposeAppTheme(themeType = Themem.themeTypeState.value) {
 
     }
