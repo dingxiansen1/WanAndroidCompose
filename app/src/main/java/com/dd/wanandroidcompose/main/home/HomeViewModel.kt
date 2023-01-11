@@ -7,12 +7,12 @@ import androidx.compose.runtime.setValue
 import androidx.paging.PagingData
 import com.dd.base.base.BaseViewModel
 import com.dd.base.ext.launch
-import com.dd.wanandroidcompose.net.RxHttpUtils
+import com.dd.base.paging.simplePager
 import com.dd.wanandroidcompose.API
 import com.dd.wanandroidcompose.bean.home.HomeBanner
 import com.dd.wanandroidcompose.bean.home.HomeData
-import com.dd.base.paging.simplePager
 import com.dd.wanandroidcompose.bean.home.ListWrapper
+import com.dd.wanandroidcompose.net.RxHttpUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

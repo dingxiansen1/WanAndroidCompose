@@ -1,17 +1,25 @@
 package com.dd.wanandroidcompose.search
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.paging.PagingData
 import com.dd.base.base.BaseViewModel
 import com.dd.base.ext.launch
+import com.dd.base.paging.simplePager
 import com.dd.wanandroidcompose.API
+import com.dd.wanandroidcompose.bean.home.ListWrapper
+import com.dd.wanandroidcompose.bean.project.CategoryDetails
 import com.dd.wanandroidcompose.bean.search.HotKey
+import com.dd.wanandroidcompose.bean.search.SearchDetails
 import com.dd.wanandroidcompose.bean.search.SearchHistory
+import com.dd.wanandroidcompose.bean.wechat.WeChatCategoryDetails
 import com.dd.wanandroidcompose.net.RxHttpUtils
 import com.dd.wanandroidcompose.utils.RoomUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,7 +76,12 @@ class SearchViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun search(){
-
+        viewState = viewState.copy(pagingData = simplePager {
+            RxHttpUtils.postAwait<ListWrapper<SearchDetails>>(
+                API.Search.search(it),
+                mapOf("k" to viewState.searchKey)
+            )!!.datas
+        })
     }
 }
 
@@ -80,8 +93,12 @@ sealed class SearchViewAction {
     object Search : SearchViewAction()
 }
 
+typealias PagingSearch = Flow<PagingData<SearchDetails>>
+
 data class SearchViewState(
     var searchHistory: List<SearchHistory> = emptyList(),
     var hotKey: List<HotKey> = emptyList(),
     var searchKey: String = "",
+    var pagingData: PagingSearch?=null,
+    val listState: LazyListState = LazyListState(),
 )
